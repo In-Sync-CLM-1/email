@@ -5,50 +5,8 @@ on:
     branches: [main]
 
 jobs:
-  deploy-supabase:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: supabase/setup-cli@v1
-        with:
-          version: latest
-
-      - run: supabase link --project-ref ${{ secrets.VITE_SUPABASE_PROJECT_ID }}
-        env:
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-
-      - run: supabase db push
-        env:
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
-
-      - run: supabase functions deploy --no-verify-jwt
-        env:
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-
-      - name: Set Supabase secrets for edge functions
-        run: |
-          supabase secrets set \
-            SITE_URL=${{ secrets.SITE_URL }} \
-            RESEND_API_KEY=${{ secrets.RESEND_API_KEY }} \
-            RAZORPAY_KEY_ID=${{ secrets.RAZORPAY_KEY_ID }} \
-            RAZORPAY_KEY_SECRET=${{ secrets.RAZORPAY_KEY_SECRET }} \
-            ANTHROPIC_API_KEY=${{ secrets.ANTHROPIC_API_KEY }} \
-            --project-ref ${{ secrets.VITE_SUPABASE_PROJECT_ID }}
-        env:
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-
-      - name: Configure Supabase Auth URLs
-        run: |
-          curl -s -X PATCH \
-            "https://api.supabase.com/v1/projects/${{ secrets.VITE_SUPABASE_PROJECT_ID }}/config/auth" \
-            -H "Authorization: Bearer ${{ secrets.SUPABASE_ACCESS_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d '{"SITE_URL":"${{ secrets.SITE_URL }}","URI_ALLOW_LIST":"${{ secrets.SITE_URL }}/**"}'
-
   build-and-deploy:
-    needs: deploy-supabase
+    name: Build and deploy frontend to Cloudflare Pages
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -62,13 +20,13 @@ jobs:
 
       - run: npm run build
         env:
-          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          VITE_SUPABASE_PROJECT_ID: ${{ secrets.VITE_SUPABASE_PROJECT_ID }}
 
-      - uses: Azure/static-web-apps-deploy@v1
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_KIND_SKY_035B7BE1E }}
-          action: upload
-          app_location: ./dist
-          output_location: ""
-          skip_app_build: true
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=email-sync --branch=main --commit-dirty=true
