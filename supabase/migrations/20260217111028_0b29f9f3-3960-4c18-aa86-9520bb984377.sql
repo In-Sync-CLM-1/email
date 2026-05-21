@@ -1,0 +1,1 @@
+ALTER TABLE public.templates ADD COLUMN IF NOT EXISTS exotel_template_id text;
