@@ -14,7 +14,7 @@ A multi-tenant email broadcast platform for sending campaigns via Resend API.
 
 ```sh
 # Clone the repository
-git clone https://github.com/insyncclm133-ops/email.git
+git clone https://github.com/In-Sync-CLM-1/email.git
 cd email
 
 # Install dependencies
