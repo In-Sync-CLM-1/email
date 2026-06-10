@@ -48,8 +48,8 @@ export default function CampaignDetail() {
     const msgs = await decryptNestedContacts(rawMsgs, currentOrg.id);
     setMessages(msgs);
 
-    // Count by status
-    const sent = msgs.filter((m: any) => m.status === "sent").length;
+    // Count by status — "sent" = dispatched; delivered/read upgrades must not shrink it
+    const sent = msgs.filter((m: any) => ["sent", "delivered", "read"].includes(m.status)).length;
     const failed = msgs.filter((m: any) => m.status === "failed").length;
     const pending = msgs.filter((m: any) => m.status === "pending").length;
     setMsgCounts({ sent, failed, pending });
