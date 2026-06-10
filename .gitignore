@@ -35,3 +35,6 @@ supabase/.temp/
 
 # Local migration scratch (may contain credentials)
 migration/
+
+# walkthrough toolkit (untracked tooling)
+scripts/

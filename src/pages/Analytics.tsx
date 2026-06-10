@@ -128,7 +128,7 @@ export default function Analytics() {
       { count: completedCount },
       { count: draftCount },
     ] = await Promise.all([
-      supabase.from("campaigns").select("*", { count: "exact", head: true }).eq("org_id", currentOrg.id).eq("status", "active"),
+      supabase.from("campaigns").select("*", { count: "exact", head: true }).eq("org_id", currentOrg.id).eq("status", "running"),
       supabase.from("campaigns").select("*", { count: "exact", head: true }).eq("org_id", currentOrg.id).eq("status", "completed"),
       supabase.from("campaigns").select("*", { count: "exact", head: true }).eq("org_id", currentOrg.id).eq("status", "draft"),
     ]);
