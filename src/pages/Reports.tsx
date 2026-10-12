@@ -7,13 +7,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { AiInsights } from "@/components/AiInsights";
 import type { Tables } from "@/integrations/supabase/types";
+import { useUrlState } from "@/hooks/useUrlState";
 
 const COLORS = ["hsl(142,70%,40%)", "hsl(210,100%,50%)", "hsl(38,92%,50%)", "hsl(0,84%,60%)", "hsl(220,10%,46%)"];
 
 export default function Reports() {
   const { currentOrg } = useOrg();
   const [campaigns, setCampaigns] = useState<Tables<"campaigns">[]>([]);
-  const [selectedCampaign, setSelectedCampaign] = useState("all");
+  const [selectedCampaign, setSelectedCampaign] = useUrlState("campaign", "all");
   const [statusData, setStatusData] = useState<{ name: string; value: number }[]>([]);
   const [loading, setLoading] = useState(true);
 

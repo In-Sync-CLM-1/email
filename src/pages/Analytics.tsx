@@ -33,6 +33,8 @@ import {
   BarChart3,
   Activity,
 } from "lucide-react";
+import { useUrlState } from "@/hooks/useUrlState";
+import { UrlTabs } from "@/components/UrlTabs";
 
 const COLORS = ["#3b82f6", "#0ea5e9", "#8b5cf6", "#f59e0b", "#ef4444"];
 
@@ -49,7 +51,7 @@ interface DailyData {
 
 export default function Analytics() {
   const { currentOrg } = useOrg();
-  const [period, setPeriod] = useState("30");
+  const [period, setPeriod] = useUrlState("period", "30");
   const [dailyData, setDailyData] = useState<DailyData[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -196,7 +198,7 @@ export default function Analytics() {
       {loading ? (
         <p className="py-8 text-center text-muted-foreground">Loading analytics...</p>
       ) : (
-        <Tabs defaultValue="messaging">
+        <UrlTabs param="analytics_tab" defaultValue="messaging">
           <TabsList>
             <TabsTrigger value="messaging">
               <Mail className="mr-1.5 h-4 w-4" /> Emails
@@ -405,7 +407,7 @@ export default function Analytics() {
               </CardContent>
             </Card>
           </TabsContent>
-        </Tabs>
+        </UrlTabs>
       )}
     </DashboardLayout>
   );

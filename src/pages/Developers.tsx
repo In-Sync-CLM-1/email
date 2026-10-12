@@ -27,6 +27,7 @@ import {
   Code,
   ExternalLink,
 } from "lucide-react";
+import { UrlTabs } from "@/components/UrlTabs";
 
 interface OutboundWebhook {
   id: string;
@@ -212,7 +213,7 @@ export default function Developers() {
         <p className="text-muted-foreground">Webhooks, API keys, and integration settings</p>
       </div>
 
-      <Tabs defaultValue="webhooks">
+      <UrlTabs param="developers_tab" defaultValue="webhooks">
         <TabsList>
           <TabsTrigger value="webhooks">
             <Webhook className="mr-1.5 h-4 w-4" /> Webhooks
@@ -535,7 +536,7 @@ export default function Developers() {
             </CardContent>
           </Card>
         </TabsContent>
-      </Tabs>
+      </UrlTabs>
     </DashboardLayout>
   );
 }

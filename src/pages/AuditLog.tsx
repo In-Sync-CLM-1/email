@@ -27,6 +27,7 @@ import {
   Users,
   Megaphone,
 } from "lucide-react";
+import { useUrlState } from "@/hooks/useUrlState";
 
 interface AuditEntry {
   id: string;
@@ -67,9 +68,9 @@ export default function AuditLog() {
   const { currentOrg } = useOrg();
   const [entries, setEntries] = useState<AuditEntry[]>([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
-  const [actionFilter, setActionFilter] = useState("all");
-  const [page, setPage] = useState(0);
+  const [search, setSearch] = useUrlState("q", "");
+  const [actionFilter, setActionFilter] = useUrlState("action", "all");
+  const [page, setPage] = useUrlState("page", 0);
   const PAGE_SIZE = 25;
 
   // Fetch user emails for display

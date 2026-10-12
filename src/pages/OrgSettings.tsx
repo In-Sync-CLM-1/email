@@ -17,6 +17,7 @@ import {
   Copy, AlertCircle, CheckCircle2, Clock, XCircle,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { UrlTabs } from "@/components/UrlTabs";
 
 interface DnsRecord {
   type: string;
@@ -263,7 +264,7 @@ export default function OrgSettings() {
         <p className="mt-1 text-muted-foreground">Manage your organization profile and email configuration</p>
       </div>
 
-      <Tabs defaultValue="profile" className="space-y-6">
+      <UrlTabs param="orgsettings_tab" defaultValue="profile" className="space-y-6">
         <TabsList className="bg-muted/50 p-1">
           <TabsTrigger value="profile" className="flex items-center gap-2">
             <Building2 className="h-4 w-4" /> Profile
@@ -617,7 +618,7 @@ export default function OrgSettings() {
             </CardContent>
           </Card>
         </TabsContent>
-      </Tabs>
+      </UrlTabs>
     </DashboardLayout>
   );
 }

@@ -17,6 +17,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Upload, Plus, Trash2, Search, Megaphone, Tag, Filter, X, Save, FolderOpen, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { decryptContacts } from "@/lib/decryptPii";
+import { useUrlState } from "@/hooks/useUrlState";
 
 interface Contact {
   id: string;
@@ -47,7 +48,7 @@ export default function Contacts() {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [contacts, setContacts] = useState<Contact[]>([]);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useUrlState("q", "");
   const [loading, setLoading] = useState(true);
   const [addOpen, setAddOpen] = useState(false);
   const [uploadOpen, setUploadOpen] = useState(false);
@@ -55,8 +56,8 @@ export default function Contacts() {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
   // Filters
-  const [sourceFilter, setSourceFilter] = useState("all");
-  const [tagFilter, setTagFilter] = useState("all");
+  const [sourceFilter, setSourceFilter] = useUrlState("source", "all");
+  const [tagFilter, setTagFilter] = useUrlState("tag", "all");
 
   // Segments
   const [segments, setSegments] = useState<{ id: string; name: string; filters: any; contact_count: number }[]>([]);
