@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Plus, Trash2, Search, Pencil } from "lucide-react";
+import { useUrlState } from "@/hooks/useUrlState";
 
 interface ManagedUser {
   id: string;
@@ -36,7 +37,7 @@ export default function Users() {
   const { currentOrg } = useOrg();
   const { toast } = useToast();
   const [users, setUsers] = useState<ManagedUser[]>([]);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useUrlState("q", "");
   const [loading, setLoading] = useState(true);
 
   const [addOpen, setAddOpen] = useState(false);

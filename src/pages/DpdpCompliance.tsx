@@ -36,6 +36,7 @@ import {
   Globe,
   Calendar,
 } from "lucide-react";
+import { UrlTabs } from "@/components/UrlTabs";
 
 interface KeyStatus {
   key_active: boolean;
@@ -350,7 +351,7 @@ export default function DpdpCompliance() {
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
         </div>
       ) : (
-        <Tabs defaultValue="encryption" className="space-y-6">
+        <UrlTabs param="dpdpcompliance_tab" defaultValue="encryption" className="space-y-6">
           <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="encryption"><Key className="mr-1 h-4 w-4" /> Encryption</TabsTrigger>
             <TabsTrigger value="settings"><FileText className="mr-1 h-4 w-4" /> Settings</TabsTrigger>
@@ -805,7 +806,7 @@ export default function DpdpCompliance() {
               </CardContent>
             </Card>
           </TabsContent>
-        </Tabs>
+        </UrlTabs>
       )}
 
       {/* ── SET/ROTATE KEY DIALOG ── */}

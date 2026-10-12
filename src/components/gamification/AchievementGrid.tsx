@@ -1,7 +1,7 @@
-import { useState } from "react";
 import { AchievementBadge } from "./AchievementBadge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { AchievementDef, OrgAchievement } from "@/hooks/useAchievements";
+import { useUrlState } from "@/hooks/useUrlState";
 
 interface AchievementGridProps {
   definitions: AchievementDef[];
@@ -19,7 +19,7 @@ const CATEGORIES = [
 ];
 
 export function AchievementGrid({ definitions, unlocked }: AchievementGridProps) {
-  const [category, setCategory] = useState("all");
+  const [category, setCategory] = useUrlState("cat", "all");
   const unlockedMap = new Map(unlocked.map((u) => [u.achievement_id, u.unlocked_at]));
 
   const filtered = category === "all"

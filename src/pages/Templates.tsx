@@ -15,6 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import {
   Plus, Trash2, Loader2, ArrowLeft, FileText, Copy, Eye, Pencil,
 } from "lucide-react";
+import { useUrlState } from "@/hooks/useUrlState";
 
 // ─── Types ───
 
@@ -417,7 +418,7 @@ export default function Templates() {
   const { currentOrg } = useOrg();
   const { toast } = useToast();
 
-  const [view, setView] = useState<"list" | "builder">("list");
+  const [view, setView] = useUrlState<"list" | "builder">("view", "list");
   const [editTemplate, setEditTemplate] = useState<TemplateRow | null>(null);
   const [templates, setTemplates] = useState<TemplateRow[]>([]);
   const [loading, setLoading] = useState(true);

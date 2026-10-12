@@ -19,6 +19,7 @@ import {
   Check,
   AlertTriangle,
 } from "lucide-react";
+import { UrlTabs } from "@/components/UrlTabs";
 
 declare global {
   interface Window {
@@ -238,7 +239,7 @@ export default function Billing() {
         </Card>
 
         {/* Tabs */}
-        <Tabs defaultValue="plans">
+        <UrlTabs param="billing_tab" defaultValue="plans">
           <TabsList>
             <TabsTrigger value="plans" className="gap-2"><IndianRupee className="h-4 w-4" /> Plans</TabsTrigger>
             <TabsTrigger value="payments" className="gap-2"><Receipt className="h-4 w-4" /> Payments</TabsTrigger>
@@ -347,7 +348,7 @@ export default function Billing() {
               </CardContent>
             </Card>
           </TabsContent>
-        </Tabs>
+        </UrlTabs>
       </div>
     </DashboardLayout>
   );
